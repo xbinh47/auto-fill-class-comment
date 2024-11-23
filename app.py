@@ -34,7 +34,10 @@ def format_each_line(driver):
         # check if any(label in lesson_data for label in list_label):
         if index == 0:
             apply_font_size(driver, span, "20")
-        if span.text.strip() and any(label in span.text.strip() for label in read_excel.list_label):
+        if span.text.strip() and (
+            any(label in span.text.strip() for label in read_excel.list_label) or 
+            any(label in span.text.strip() for label in read_excel.extra_label.values())
+        ):
             move_cursor_to_end_of_text(driver, span)
             time.sleep(1)  # Ensure the cursor is positioned
             click_bold_button(driver)
@@ -171,26 +174,31 @@ def clear_selection(driver):
     script = "window.getSelection().removeAllRanges();"
     driver.execute_script(script)
 
-def main():
+def main(search_input_text, file_path, sheet_name, lesson_number, class_performance_text, homework_result_text, deadline_text, next_requirement_text):
     driver = setup_driver()
     
     # Parameters for the function
-    search_input_text = "HTLO-C4K-PTB08"
-    file_path = "data.xlsx"
-    sheet_name = "PTA"
-    lesson_number = 1
-    class_performance_text = """
-    - Lớp nay học ổn
-    - Có 1 bạn học khá
-    - Có 1 bạn học yếu
-    """
-    deadline_text = "Hạn nộp bài là ngày mai"
+    # search_input_text = "Test tool nxbh"
+    # file_path = "data.xlsx"
+    # sheet_name = "PTA"
+    # lesson_number = 9
+    # class_performance_text = """"""
+    # homework_result_text = """- Trí Cường và Trí Khiêm làm bài còn sơ sài
+    # - Minh Tường, Thái An, Nam Khánh làm bài tốt, chỉnh chu"""
+    # deadline_text = "- Push code lên github trước ngày 28/11/2024"
+    # next_requirement_text = """- Hoàn thành giao diện đăng nhập và đăng ký, hoàn thiện ít nhất 1 màn hình chính"""
     
     # Extract all text with formatting from the Word document
     data = read_excel.read_lesson_and_format_from_excel(file_path, sheet_name, lesson_number)
     if class_performance_text:
         data.append(read_excel.extra_label["class_performance"])
         data.append(class_performance_text)  
+    if homework_result_text:
+        data.append(read_excel.extra_label["homework_result"])
+        data.append(homework_result_text)
+    if next_requirement_text:
+        data.append(read_excel.extra_label["next_requirement"])
+        data.append(next_requirement_text)
     if deadline_text:
         data.append(read_excel.extra_label["deadline"])
         data.append(deadline_text)
@@ -202,11 +210,10 @@ def main():
     format_each_line(driver)
     
     # Keep the browser open
-    while True:
-        pass
+    input("Press Enter to close the browser...")
     
     # Close the driver
     driver.quit()
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
