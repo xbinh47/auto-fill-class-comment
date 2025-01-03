@@ -7,15 +7,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import pyperclip
-from docx import Document
+from docx import *
 import time
 import read_excel
+import os
 
 def setup_driver():
     # Set up Chrome options to use a specific profile
     chrome_options = Options()
-    chrome_options.add_argument(r"user-data-dir=C:\Users\binhn\AppData\Local\Google\Chrome\User Data")  # Path to your Chrome profile
-    chrome_options.add_argument("profile-directory=Profile 5")  # Profile name
+    chrome_options.add_argument("user-data-dir=" + os.getenv("CHROME_PROFILE_PATH"))  # Path to your Chrome profile
+    chrome_options.add_argument("profile-directory=Profile 1")  # Profile name
     chrome_options.add_argument("start-maximized") # open Browser in maximized mode
     chrome_options.add_argument("disable-infobars") # disabling infobars
     chrome_options.add_argument("--disable-extensions") # disabling extensions
@@ -183,7 +184,7 @@ def main(search_input_text, file_path, sheet_name, lesson_number, class_performa
     # sheet_name = "PTA"
     # lesson_number = 9
     # class_performance_text = """"""
-    # homework_result_text = """- Trí Cường và Trí Khiêm làm bài còn sơ sài
+    # homework_result_text = """- Trí Cường và Trí Khi��m làm bài còn sơ sài
     # - Minh Tường, Thái An, Nam Khánh làm bài tốt, chỉnh chu"""
     # deadline_text = "- Push code lên github trước ngày 28/11/2024"
     # next_requirement_text = """- Hoàn thành giao diện đăng nhập và đăng ký, hoàn thiện ít nhất 1 màn hình chính"""
