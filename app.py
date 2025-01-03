@@ -16,7 +16,7 @@ def setup_driver():
     # Set up Chrome options to use a specific profile
     chrome_options = Options()
     chrome_options.add_argument("user-data-dir=" + os.getenv("CHROME_PROFILE_PATH"))  # Path to your Chrome profile
-    chrome_options.add_argument("profile-directory=Profile 1")  # Profile name
+    chrome_options.add_argument("profile-directory=" + os.getenv("PROFILE_NAME"))  # Profile name
     chrome_options.add_argument("start-maximized") # open Browser in maximized mode
     chrome_options.add_argument("disable-infobars") # disabling infobars
     chrome_options.add_argument("--disable-extensions") # disabling extensions
