@@ -1,0 +1,13 @@
+{
+    "last_file_path": "/Users/pinxun/Documents/MindX/Tool/Auto Fill NXBH/data.xlsx",
+    "checkbox_states": {
+        "class_performance": true,
+        "lesson_content": true,
+        "slide_link": true,
+        "video_link": true,
+        "homework_result": true,
+        "next_requirement": true,
+        "deadline": true,
+        "next_lesson_content": true
+    }
+}
