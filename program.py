@@ -8,8 +8,21 @@ from PyQt6.QtWidgets import (
     QApplication, QWidget, QLabel, QLineEdit, QPushButton, QTextEdit, QCheckBox,
     QComboBox, QFileDialog, QMessageBox, QVBoxLayout, QHBoxLayout, QScrollArea
 )
-from PyQt6.QtCore import Qt, QTimer
+from PyQt6.QtCore import Qt, QTimer, pyqtSignal
 
+class ClickableLabel(QLabel):
+    """A QLabel that emits a clicked signal when clicked."""
+    clicked = pyqtSignal()
+
+    def __init__(self, text="", parent=None):
+        super().__init__(text, parent)
+        # Optionally, style it to look like a hyperlink
+        self.setStyleSheet("color: blue; text-decoration: underline;")
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+
+    def mousePressEvent(self, event):
+        self.clicked.emit()
+        super().mousePressEvent(event)
 
 class LessonDataUI(QWidget):
     def __init__(self):
@@ -122,6 +135,13 @@ class LessonDataUI(QWidget):
         self.result_text.setReadOnly(True)
         self.result_text.setMinimumHeight(200)
         container_layout.addWidget(self.result_text)
+        
+        # --- Copyright clickable label ---
+        self.copyright_label = ClickableLabel("© Xuân Bình")
+        self.copyright_label.clicked.connect(self.show_copyright_message)
+        # Center the label at the bottom.
+        container_layout.addWidget(self.copyright_label, alignment=Qt.AlignmentFlag.AlignCenter)
+
 
     def create_text_input_with_checkbox(self, label_text, attr_name):
         """Tạo widget gồm checkbox, nhãn và QTextEdit."""
@@ -378,6 +398,10 @@ class LessonDataUI(QWidget):
                 self.save_cache(file_path)
                 self.on_sheet_or_lesson_change()
 
+    # --------------------- Copyright Action ---------------------
+    def show_copyright_message(self):
+        # When the copyright label is clicked, display a message box.
+        QMessageBox.information(self, "Copyright", "© Xuân Bình\nAll rights reserved.")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
