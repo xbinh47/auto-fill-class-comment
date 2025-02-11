@@ -236,7 +236,6 @@ class LessonDataUI(QWidget):
         for output_label in output_labels.values():
             if output_label not in data:
                 data[output_label] = ""
-        print("Processed data:", data)
         return data
 
     def remove_vietnamese_accent(self, text):
